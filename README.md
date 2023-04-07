@@ -1,2 +1,2 @@
 # os_development
-An OS development repository
+An OS development repo for kernel development 

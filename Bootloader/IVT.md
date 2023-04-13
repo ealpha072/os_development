@@ -1,3 +1,5 @@
+## Interrupt Vector Table (IVT)
+
 `An Interrupt Vector Table (IVT)` - is a data structure used by a computer's operating system to manage interrupt handling. An interrupt is a signal sent by a device or program to the CPU, indicating that it requires the CPU's attention to perform a specific task. When the CPU receives an interrupt signal, it stops its current task, saves its state, and jumps to a specific memory address that is associated with the interrupt.
 
 The IVT is a table of memory addresses that maps each interrupt number to the address of the corresponding interrupt handler routine in memory. Each entry in the table is called an interrupt vector, and it contains the address of the interrupt handler routine for a specific interrupt number.

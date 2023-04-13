@@ -24,3 +24,4 @@ The BIOS takes control...
       - A Track is a collection of sectors.
     ***Note**: Remember that 1 sector is 512 bytes, and there are 18 sectors per track on floppy disks. This wil be important when loading files.
       - If the disk is bootable, Then the bootsector will be loaded at 0x7C00, and INT 0x19 will jump to it, therby giving control to the bootloader.
+4. Next file [Bootloader Theory]()

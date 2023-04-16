@@ -1,6 +1,6 @@
 ;*********************************************
 ;	Boot1.asm
-;		- A Bootloader
+;       - A Bootloader
 ;
 ;	Operating Systems Development Tutorial
 ;*********************************************

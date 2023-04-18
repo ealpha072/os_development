@@ -23,3 +23,14 @@ The registers the x86 use for segment refrencing are as follows:
 
 ### Protected Mode
 PMode allows Memory Protection through the use of a Descriptor Tables that describe your memory layout. PMode is a 32 bit processor modes, so it also allows you to use 32 bit registers, and access up to 4 GB of RAM. A huge improvment over Real Mode. 
+
+## Switching Processor modes
+The only two built in actual modes and **Real Mode** and **Potected Mode**
+There is some important things to remember about PMode however:
+  - Absolutley no interrupts will be avilable. You will need to write them yourself. The use of any interrupt--hardware or software will cause a Triple Fault
+  - Once you switch into pmode, the *slightest* mistake will cause a Triple Fault. Be carefull.
+  - PMode requires the use of Descriptor Tables, such as the GDT, LDT, and IDTs.
+  - PMode gives you access to 4 GB of Memory, With Memory Protection
+  - Segment:Offset Addressing is used along with Linear Addressing
+  - Access and use of 32 bit registers
+

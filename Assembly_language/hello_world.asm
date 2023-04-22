@@ -3,16 +3,22 @@
 ; Link with (64 bit systems require elf_i386 option): ld -m elf_i386 helloworld.o -o helloworld
 ; Run with: ./helloworld
  
+
 SECTION .data
-msg     db      'Hello World!', 0Ah     ; assign msg variable with your message string
- 
+	hello db 'Hello world!', 0
+
 SECTION .text
-global  _start
- 
+	global _start
+
 _start:
- 
-    mov     edx, 13     ; number of bytes to write - one for each letter plus 0Ah (line feed character)
-    mov     ecx, msg    ; move the memory address of our message string into ecx
-    mov     ebx, 1      ; write to the STDOUT file
-    mov     eax, 4      ; invoke SYS_WRITE (kernel opcode 4)
-    int     80h
+	mov eax, 4
+	mov ebx, 1
+	mov ecx, hello
+	mov edx, 13
+	int 0x80
+	
+	;exit with status code
+	mov eax, 1
+	xor ebx, ebx
+	int 0x80
+

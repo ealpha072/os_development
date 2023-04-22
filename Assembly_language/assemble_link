@@ -1,4 +1,12 @@
-rm hello_world.o hello_world
+rm hello_world.o
+echo "Deleted hello_world.o\n" 
+
+rm hello_world
+echo "Deleted hello_word executable file\n"
+echo "Attempting nasm compilation ...\n"
 nasm -f elf64 hello_world.asm
+echo "Assembling complete...\n"
 ld -s -o hello_world hello_world.o
+echo "Link complete...\n"
+
 

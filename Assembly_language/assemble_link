@@ -1,0 +1,4 @@
+rm hello_world.o
+nasm -f elf64 helloworld.asm
+
+

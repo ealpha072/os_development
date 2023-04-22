@@ -11,10 +11,18 @@ SECTION .text
 	global _start
 
 _start:
+	;write hello world to standard output
 	mov eax, 4
 	mov ebx, 1
 	mov ecx, hello
 	mov edx, 13
+	int 0x80
+
+	;write new line
+	move eax, 4
+	mov ebx, 1
+	mov ecx, 0x0a
+	mov edx, 1
 	int 0x80
 	
 	;exit with status code

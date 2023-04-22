@@ -1,34 +1,19 @@
 ;*********************************************
 ;	Boot1.asm
-;       - A Bootloader
+;		- A Simple Bootloader
 ;
 ;	Operating Systems Development Tutorial
 ;*********************************************
-;A simple bootloader that prints Hello world to the screen
+
+org		0x7c00
+
+bits	16
  
-org 0x7c00			
-bits 16
-
-;Print Hello world to screen
-
-mov ah, 0x0e
-mov al, 'H'
-int 0x10
-mov al, 'e'
-int 0x10
-mov al, 'l'
-int 0x10
-mov al, 'l'
-int 0x10
-mov al, 'o'
-int 0x10
-int 0x10
-
-;Start:
-;  cli
-;  hlt
-
-times 510 - ($-$$) db 0
+Start:
+	cli
+	hlt
+	
+times 510 - ($-$$) db 0	
 dw 0xAA55
 
 ; org 0x7c00 - Sets the origin of the program to memory address 0x7c00. This is where the BIOS loads the boot sector into memory.

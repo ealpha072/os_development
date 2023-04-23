@@ -33,4 +33,34 @@ There is some important things to remember about PMode however:
   - PMode gives you access to 4 GB of Memory, With Memory Protection
   - Segment:Offset Addressing is used along with Linear Addressing
   - Access and use of 32 bit registers
+ 
+## Expanding the Bootloader
+### Printing Text - Interrupt 0x10 Function 0x0E
+You an use INT 0x10 for video interrupts. INT 0x10 - VIDEO TELETYPE OUTPUT;
+- AH = 0x0E - Move 0x0E to address AH
+- AL = Character to write ,The ASCII code of the character to be displayed is placed in the AL register.
+- BH - Page Number (Should be 0)
+- BL = Foreground color (Graphics Modes Only)
+
+The BIOS interrupt 0x10 is called with the AH register set to 0x0e, which indicates the teletype output function.
+To print 'A' to the screen
+```asm
+xor bx, bx
+mov ah, 0x0e
+mov al, 'A'
+int 0x10
+```
+More on int 0x10 [here](https://en.wikipedia.org/wiki/INT_10H)
+
+### Printing Strings - Interrupt 0x10 Function 0x0E
+Using the same interrupt, we can easily print out a 0 terminated string. To print a string "Hello world" in a bootloader, you can use a loop to iterate through each character in the string, and then use the teletype output function (0x0e) of the BIOS interrupt 0x10 to print each character on the screen.
+
+We will now have a bootloader that looks like this [here](NASM_Bootloader/Bootloader_two.asm)
+The "lodsb" instruction is an x86 instruction that loads a byte from the memory location pointed to by the source index (SI) register into the AL register, and then increments the SI register to point to the next byte.
+
+Here's a breakdown of how the "lodsb" instruction works:
+- The "lodsb" instruction first reads the value in the SI register, which is assumed to hold a memory address.
+- The "lodsb" instruction reads a single byte of data from the memory location pointed to by the SI register and loads it into the AL register.
+- The "lodsb" instruction then increments the SI register by 1 (or 2, or 4, depending on the operand size).
+- The "lodsb" instruction is now complete, and the byte of data that was loaded into the AL register can be used in subsequent instructions.
 

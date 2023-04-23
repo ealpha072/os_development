@@ -55,8 +55,9 @@ More on int 0x10 [here](https://en.wikipedia.org/wiki/INT_10H)
 ### Printing Strings - Interrupt 0x10 Function 0x0E
 Using the same interrupt, we can easily print out a 0 terminated string. To print a string "Hello world" in a bootloader, you can use a loop to iterate through each character in the string, and then use the teletype output function (0x0e) of the BIOS interrupt 0x10 to print each character on the screen.
 
-We will now have a bootloader that looks like this [here](NASM_Bootloader/Bootloader_two.asm)
-The "lodsb" instruction is an x86 instruction that loads a byte from the memory location pointed to by the source index (SI) register into the AL register, and then increments the SI register to point to the next byte.
+We will now have a bootloader that looks like this [here](NASM_Bootloader/bootloader_two.asm)
+
+The **lodsb** instruction is an x86 instruction that loads a byte from the memory location pointed to by the source index (SI) register into the AL register, and then increments the SI register to point to the next byte.
 
 Here's a breakdown of how the "lodsb" instruction works:
 - The "lodsb" instruction first reads the value in the SI register, which is assumed to hold a memory address.

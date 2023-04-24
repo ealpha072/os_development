@@ -76,6 +76,30 @@ xor bx, bx       ; Clear BX to offset
 
 int 0x13         ; Call BIOS interrupt 0x13 to read the sector
 ```
+**CH = Low eight bits of cylinder number** - What is a Cylinder? A cylinder is a group of tracks (with the same radius) on the disk. To better understand this, lets look at a picture: 
 
-What is a Cylinder? A cylinder is a group of tracks (with the same radius) on the disk. To better understand this, lets look at a picture: 
+![image](https://user-images.githubusercontent.com/65494407/234108177-536a6c01-6f45-48c2-82a8-be33f0bea76f.png)
+
+Remember:
+- Each Track is useually divided into 512 byte sectors. On floppies, there are 18 sectors per track.
+- A Cylinder is a group of tracks with the same radius (The Red tracks in the picture above are one cylinder)
+- Floppy Disks have two heads (Displayed in the picture)
+- There is 2880 Sectors total.
+
+**In summary, there are 512 bytes per sector, 18 sectors per track, and 80 tracks per side.**
+
+**CL = Sector Number (Bits 0-5). Bits 6-7 are for hard disks only** - This is the first sector to begin reading from. Remember: There is only 18 sectors per track. This means that this value can only be between 0 and 17. You have to increase the current track number, and insure the sector number is correctly set to read the correct sector.
+
+If this value is greater then 18, The Floppy Controller will generate an exception, because the sector does not exist. Because there is no handler for it, The CPU will generate a second fault exception, which will ultimately lead to a Triple Fault. 
+
+**DH = Head Number** - Remember that some floppys have two heads, or sides, to them. Head 0 is on the front side, where sector 0 is. Because of this, We are going to be reading from Head 0. If this value is greater than 2, The Floppy Controller will generate an exception, because the head does not exist. Because there is no handler for it, The CPU will generate a second fault exception, which will ultimately lead to a Triple Fault.
+
+**DL = Drive Number (Bit 7 set for hard disks)
+ES:BX = Buffer to read sectors to**
+
+A Drive Number represents a drive. Drive Number 0 useually represents a floppy drive.Because we are on a floppy, we want to read from the floppy disk. So, the drive number to read from is 0.
+
+ES:BX stores the segment:offset base address to read the sectors into. Remember that the Base Address represents the starting address. 
+With this all in mind, lets try to read a sector;
+
 

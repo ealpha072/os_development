@@ -1,1 +1,0 @@
-More bootloader theory

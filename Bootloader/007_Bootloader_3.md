@@ -1,0 +1,49 @@
+## Introduction
+This program will be our Second Stage Bootloader. Our Second Stage Bootloader will then set the 32 bit envirement, and prepare to load our C Kernel.
+
+## The Rings of Assembly Language
+In Assembly Language, you might here the term "Ring 0 program", or "This program is running in Ring 3". Understanding the different rings (and what they are) can be usefull in OS Development. A "Ring", in Assembly Language, represents the level of protection and control the program has over the system. There are 4 rings: Ring 0, Ring 1, Ring 2, and Ring 3.  Ring 0 programs have absolute control over everything within a system, while ring 3 has less control. The smaller the ring number, the more control (and less level of protection), the software has.
+
+A **Ring** is more then a concept--it is built into the processor arhcitecture. When the computer boots up, even when your Bootloader executes, the processor is in Ring 0. Most applications, such as DOS applications, run in Ring 3. This means Operating Systems, as running in Ring 0, have far more control over everything then normal Ring 3 applications. 
+Here is a brief overview of each ring:
+- Ring 0 (also known as the kernel mode or supervisor mode) is the most privileged ring and is typically reserved for the operating system kernel. Code running in ring 0 has access to all system resources and can execute privileged instructions.
+- Ring 1 and Ring 2 (also known as the device driver or subsystem modes) are less privileged than ring 0 and are typically used by device drivers or other system components that require a higher level of privilege than normal user applications. Code running in these rings has access to a subset of system resources and can execute a subset of privileged instructions.
+- Ring 3 (also known as the user mode) is the least privileged ring and is used by normal user applications. Code running in ring 3 has limited access to system resources and can only execute a subset of instructions that are not privileged.
+
+## Multi Stage Bootloaders
+### Single Stage Bootloaders
+Remember that bootloaders, and bootsectors, are only 512 bytes in size. If the bootloader, within that same 512 bytes, executed the kernel directly, it is called a Single Stage Bootloader. The problem with this, however, is that of its size. There is so little room to do alot within those 512 bytes. It will be very difficault to set up, load and execute a 32 bit kernel within a 16 bit bootloader. This does not include error handling code. This includes code for: GDT, IDT, A20, PMode, Loading and finding 32 bit kernel, executing kernel, and error handling. Fitting all of this code within 512 bytes is impossible. Because of this, Single stage bootloaders have to load and execute a 16 bit kernel. 
+
+Because of this problem, most bootloaders are Multi Stage Loaders. 
+
+### Multi Stage Bootloaders
+A Multi Stage Bootloader consists of a single 512 byte bootloader (The Single Stage Loader), however it just loads and executes another loader - A Second Stage Bootloader. the Second Stage Bootloader is normally 16 bit, however it will include all of the code (listed in the previous section), and more. It will be able to load and execute a 32 bit Kernel.  The reason this works is because the only 512 byte limitation is the bootloader. As long as the bootloader loads all of the sectors for the Second Stage loader in good manner, the Second Stage Loader has no limitation in size. This makes things much easier to set up for the Kernel.
+
+We will be using a 2 Stage Bootloader. 
+
+## Loading Sectors Off Disk
+Remember that Bootloaders are limited to 512 bytes. Because of this, there is not a whole lot we can do. As stated in the previous section, we are going to be using a 2 Stage Bootloader. This means, we will need our Bootloader to load and execute our Stage 2 program -- The Kernel Loader. 
+
+**`BIOS Interrupt (INT) 0x13 Function 0 - Reset Floppy Disk`** - The BIOS Interrupt 0x13 is used for disk access. You can use INT 0x13, Function 0 to reset the floppy drive. What this means is, wherever the Floppy Controller is reading from, it will immediately go to the first Sector on disk. BIOS interrupt 0x13 is a low-level disk I/O interrupt that allows a bootloader or operating system to read and write sectors from a storage device (such as a hard disk or floppy disk) using BIOS routines.
+
+The interrupt is typically called with the AH register set to a command code that specifies the type of operation to perform, and the other registers set to parameters such as the number of sectors to read or write, the starting sector number, and the buffer address. The BIOS interrupt `0x13 with AH=0x0` is used to reset the disk system. This interrupt resets all disk drives in the system to a known state.
+
+**INT 0x13/AH=0x0 - DISK : RESET DISK SYSTEM**
+AH = 0x0
+DL = Drive to Reset
+
+Returns:
+AH = Status Code
+CF (Carry Flag) is clear if success, it is set if failure
+
+Example
+```asm
+mov ah, 0x0 ; Set AH to 0x0 to indicate disk reset command
+int 0x13    ; Call BIOS interrupt 0x13
+```
+
+Why is this interrupt important to us? Before reading any sectors, we have to insure we begin from sector 0. We dont know what sector the floppy controller is reading from. This is bad, as it can change from any time you reboot. Reseting the disk to sector 0 will insure you are reading the same sectors each time. 
+
+
+
+

@@ -28,12 +28,12 @@ Remember that Bootloaders are limited to 512 bytes. Because of this, there is no
 
 The interrupt is typically called with the AH register set to a command code that specifies the type of operation to perform, and the other registers set to parameters such as the number of sectors to read or write, the starting sector number, and the buffer address. The BIOS interrupt `0x13 with AH=0x0` is used to reset the disk system. This interrupt resets all disk drives in the system to a known state.
 
-**INT 0x13/AH=0x0 - DISK : RESET DISK SYSTEM**
-AH = 0x0
+**INT 0x13/AH=0x0 - DISK : RESET DISK SYSTEM** </br>
+AH = 0x0 </br>
 DL = Drive to Reset
 
 Returns:
-AH = Status Code
+AH = Status Code </br>
 CF (Carry Flag) is clear if success, it is set if failure
 
 Example
@@ -43,6 +43,39 @@ int 0x13    ; Call BIOS interrupt 0x13
 ```
 
 Why is this interrupt important to us? Before reading any sectors, we have to insure we begin from sector 0. We dont know what sector the floppy controller is reading from. This is bad, as it can change from any time you reboot. Reseting the disk to sector 0 will insure you are reading the same sectors each time. 
+
+**`BIOS Interrupt (INT) 0x13 Function 0x02 - Reading Sectors`** - sed to read disk sectors into memory. This interrupt is typically used to load boot code or other data from disk into memory during system startup.
+When this interrupt is called with AH=0x2, the other registers are used to specify the disk address and number of sectors to read. The disk address is specified using the CH, CL, and DH registers, while the number of sectors to read is specified using the AL register.
+
+After the read operation is complete, the data is typically stored in memory at the location specified by the ES:BX register pair.
+
+**INT 0x13/AH=0x02 - DISK : READ SECTOR(S) INTO MEMORY** </br>
+AH = 0x02 </br>
+AL = Number of sectors to read </br>
+CH = Low eight bits of cylinder number </br>
+CL = Sector Number (Bits 0-5). Bits 6-7 are for hard disks only </br>
+DH = Head Number </br>
+DL = Drive Number (Bit 7 set for hard disks) </br>
+ES:BX = Buffer to read sectors to
+
+Returns:
+AH = Status Code </br>
+AL = Number of sectors read </br>
+CF = set if failure, cleared is successfull
+
+```asm
+mov ah, 0x2      ; Set AH to 0x2 to indicate read sector command
+mov al, 0x1      ; Set AL to 0x1 to read a single sector
+mov ch, 0x0      ; Set CH to the cylinder number
+mov cl, 0x2      ; Set CL to the sector number
+mov dh, 0x0      ; Set DH to the head number
+mov dl, 0x80     ; Set DL to the drive number
+mov bx, 0x7c00   ; Set BX to the address in memory to store the data
+mov es, bx       ; Set ES to the same value as BX for convenience
+xor bx, bx       ; Clear BX to offset
+
+int 0x13         ; Call BIOS interrupt 0x13 to read the sector
+```
 
 
 

@@ -77,6 +77,5 @@ xor bx, bx       ; Clear BX to offset
 int 0x13         ; Call BIOS interrupt 0x13 to read the sector
 ```
 
-
-
+What is a Cylinder? A cylinder is a group of tracks (with the same radius) on the disk. To better understand this, lets look at a picture: 
 

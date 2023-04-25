@@ -30,3 +30,11 @@ To better nderstand this lets look at the possible values:
 5. Value marks bad clusters : 0xFF7
 6. Value marks this cluster as the last in the file : 0xFF8 through 0xFFF
 
+A FAT is just an array of these values--thats all. When we find the starting sector form the Root Directory, we can look through the FAT to find which clusters to load. How? We simply check the value. If the value is between 0x02 and 0xfef, this value represents the next cluster to load for the file.
+
+Lets look at this in a deeper way. A cluster, as you know, represents a series of sectors. We define the amount of sectors it represents from the BIOS Paramete Block: 
+```asm
+bpbBytesPerSector:  	DW 512
+bpbSectorsPerCluster: 	DB 1
+```
+

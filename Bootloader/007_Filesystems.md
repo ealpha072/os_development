@@ -8,3 +8,18 @@ There are alot of different kinds of file systems. Some are widley use (Like FAT
 
 ## FAT12 Filesystem - Theory
 To understand more about FAT12, and how it works, it is better to look at the structure of a typical formatted disk. 
+
+**Boot Sector | Extra Reserved Sectors| File Allocation Table 1 | File Allocation Table 2 | Root Directory (FAT12/FAT16 Only) | Data Region containng files and directories **|
+------------|------------------------|-------------------------|-------------------------|-----------------------------------|---------------------------------------------|
+
+This is a typical formatted FAT12 disk, from the bootsector to the very last sector on disk. Understanding this structure will be important when loading and searching for our file. Note that there are 2 FATs on a disk. It is located *right after* the reserved sectors (or the bootloader, if there is none).
+
+Also note: The Root Directory is right after all of the FATs. This means...if we add up the number of sectors per FAT, and the reserved sectors, we can get the first sector to the Root Directory. By searching the Root Directory for a simple string (our filename), we can effectivly find the exact sector of the file on disk :) 
+
+**`Boot Sector`** - This section contains the BIOS Parameter Block and the bootloader. Yep--Ours. The BIOS Parameter Block contains information tat help describe our disk.</br>
+**`Extra Reserved Sectors`** - Remember the bpbReservedSectors member of our BPB? Any extra reserved sectors are stored here, right after the bootsector. </br>
+**`File Allocation Tables (FATs)`** - Remember that a cluster represents a series of contiguous sectors on disk. the size of each cluster is normally 2 KB to 32 KiB. The file peices are linked (from one cluster to another using a common data structure, such as a Linked List. There are two FATs. However, one is just a copy of the first one for data recovery purposes. It useally isnt used.
+
+**The File Allocation Table (FAT) is a list of entrys that map to each of these clusters. They help identify important information to aid in storing data to these clusters.** Each entry is a 12 bit value that represents a cluster. The FAT is a linked list-like structure with these entrys that helps identify what clusters are in use.
+
+To better nderstand this lets look at the possible values: 

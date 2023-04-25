@@ -23,3 +23,10 @@ Also note: The Root Directory is right after all of the FATs. This means...if we
 **The File Allocation Table (FAT) is a list of entrys that map to each of these clusters. They help identify important information to aid in storing data to these clusters.** Each entry is a 12 bit value that represents a cluster. The FAT is a linked list-like structure with these entrys that helps identify what clusters are in use.
 
 To better nderstand this lets look at the possible values: 
+1. Value marks free cluster : 0x00
+2. Value marks Reserved cluster : 0x01
+3. This cluster is in use--the value represents next cluster : 0x002 through 0xFEF
+4. Reserved values : 0xFF0 through 0xFF6
+5. Value marks bad clusters : 0xFF7
+6. Value marks this cluster as the last in the file : 0xFF8 through 0xFFF
+

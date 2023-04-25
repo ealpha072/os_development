@@ -102,4 +102,49 @@ A Drive Number represents a drive. Drive Number 0 useually represents a floppy d
 ES:BX stores the segment:offset base address to read the sectors into. Remember that the Base Address represents the starting address. 
 With this all in mind, lets try to read a sector;
 
+An example of reading and reseting in [here](NASM_Bootloader/boot_three.asm)
 
+**Note: If there is a problem reading the sectors, and you try to jump to it to execute it, The CPU will exeute whatever instructions at that address, weather or not the sector was loaded. This useually means the CPU will run into either an invalid/unkown instruction, or the end of memory, both will result in a Triple Fault.**
+
+## Navigating The FAT12 FileSystem
+`OEM Parameter Block` - Detail 
+```asm
+bpbBytesPerSector:  	DW 512
+bpbSectorsPerCluster: 	DB 1
+bpbReservedSectors: 	DW 1
+bpbNumberOfFATs: 	    DB 2
+bpbRootEntries: 	    DW 224
+bpbTotalSectors: 	    DW 2880
+bpbMedia: 	            DB 0xF0
+bpbSectorsPerFAT: 	    DW 9
+bpbSectorsPerTrack: 	DW 18
+bpbHeadsPerCylinder: 	DW 2
+bpbHiddenSectors: 	    DD 0
+bpbTotalSectorsBig:     DD 0
+bsDriveNumber: 	        DB 0
+bsUnused: 	            DB 0
+bsExtBootSignature: 	DB 0x29
+bsSerialNumber:	        DD 0xa0a1a2a3
+bsVolumeLabel: 	        DB "MOS FLOPPY "
+bsFileSystem: 	        DB "FAT12   "
+```
+
+This is a block of data structure definitions commonly known as the BIOS Parameter Block (BPB) for a floppy disk using the FAT12 file system.
+
+Here is the breakdown of the different fields in this BPB:
+- bpbBytesPerSector: A 16-bit value specifying the number of bytes per sector on the disk. In this case, it is set to 512 bytes.
+- bpbSectorsPerCluster: An 8-bit value specifying the number of sectors in each cluster. In this case, it is set to 1 sector per cluster.
+- bpbReservedSectors: A 16-bit value specifying the number of reserved sectors at the beginning of the volume. In this case, it is set to 1 sector.
+- bpbNumberOfFATs: An 8-bit value specifying the number of File Allocation Tables (FATs) on the disk. In this case, it is set to 2.
+- bpbRootEntries: A 16-bit value specifying the maximum number of files in the root directory of the volume. In this case, it is set to 224 entries.
+- bpbTotalSectors: A 16-bit value specifying the total number of sectors on the disk. In this case, it is set to 2880 sectors.
+- bpbMedia: An 8-bit value specifying the media descriptor for the disk. In this case, it is set to 0xF0, which indicates a 1.44 MB 3.5" floppy disk.
+- bpbSectorsPerFAT: A 16-bit value specifying the number of sectors occupied by each FAT. In this case, it is set to 9 sectors per FAT.
+- bpbSectorsPerTrack: A 16-bit value specifying the number of sectors per track on the disk. In this case, it is set to 18 sectors per track.
+- bpbHeadsPerCylinder: A 16-bit value specifying the number of heads (or read/write surfaces) on the disk. In this case, it is set to 2 heads.
+- bpbHiddenSectors: A 32-bit value specifying the number of hidden sectors preceding the partition that contains the volume. In this case, it is set to 0.
+- bpbTotalSectorsBig: A 32-bit value specifying the total number of sectors on the disk for volumes larger than 32 MB. In this case, it is set to 0.
+- bsDriveNumber: An 8-bit value specifying the BIOS drive number of the disk. In this case, it is set to 0.
+- bsUnused: An 8-bit value reserved for future use. In this case, it is set to 0.
+- bsExtBootSignature: An 8-bit value indicating the presence of an extended boot signature in the next three fields. In this case, it is set to 0x29.
+- bsSerialNumber: A 32-bit volume serial number. In this case, it is set to 0xa0a1a2a3.

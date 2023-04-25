@@ -39,3 +39,4 @@ bpbSectorsPerCluster: 	DB 1
 ```
 In our case, each cluster is 1 sector. When we get the first sector of Stage 2 (We get this from the root directory), we use this sector as the starting cluster number in the FAT. Once we find the starting cluster, we just refrence the FAT to determin the cluster (The FAT is just an array of 32 bit numbers. We just compare this number with the list above to determin what to do with it.) 
 
+**`The Root Directory Table`** - 

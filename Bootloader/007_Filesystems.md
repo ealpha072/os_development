@@ -72,3 +72,6 @@ This 32 byte value uses the format:
 9. Bytes 24-25 : Last modified date (See bytes 16-17 for format)
 10. Bytes 26-27 : First Cluster - These bytes store the number of the first cluster of the directory that contains the file.
 11. Bytes 28-32 : File Size
+
+## Searching and reading FAT12 - Theory
+We are going to be refrencing the BIOS Parameter Block (BPB) alot. Here is the BPB that we created from the prevuis tutorials for refrence: 

@@ -75,3 +75,12 @@ This 32 byte value uses the format:
 
 ## Searching and reading FAT12 - Theory
 We are going to be refrencing the BIOS Parameter Block (BPB) alot. Here is the BPB that we created from the prevuis tutorials for refrence: 
+find the BIO Parameter Block [here](BIOS_PB.md)
+
+### Beginning with a filename
+The first thing to do is to create a good filename. Remember: The Filenames must be exactally 11 bytes to insure we don't corrupt the root directory.
+
+I am using "STAGE2.SYS", for my second stage. You can look at an example of its internal filename in the above section. 
+
+### Creating Stage 2
+Our Stage2 will be very simular to a DOS COM program. All Stage2 does right now is print a message and halt.

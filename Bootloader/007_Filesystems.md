@@ -39,4 +39,36 @@ bpbSectorsPerCluster: 	DB 1
 ```
 In our case, each cluster is 1 sector. When we get the first sector of Stage 2 (We get this from the root directory), we use this sector as the starting cluster number in the FAT. Once we find the starting cluster, we just refrence the FAT to determin the cluster (The FAT is just an array of 32 bit numbers. We just compare this number with the list above to determin what to do with it.) 
 
-**`The Root Directory Table`** - 
+**`The Root Directory Table`** - the root directory table is a fixed-size table that contains information about the files and directories located in the root directory of the file system. The root directory is a special directory that exists at the top level of the file system and contains information about all the files and directories that are directly accessible from the root. The root directory table in FAT12 is located immediately after the boot sector of the file system, and its size is fixed, which means that it can hold a limited number of entries. In particular, the root directory table in a FAT12 file system can hold up to 512 directory entries, with each entry being 32 bytes long.
+
+Each directory entry in the root directory table contains information about a file or directory, such as its name, size, and date/time stamps. The name of each file or directory is stored in a fixed-size field in the directory entry, with up to 8 characters for the file name and up to 3 characters for the file extension. The size of each file is also stored in the directory entry, along with its starting cluster number.
+
+This 32 byte value uses the format: 
+1. Byte 0-10: File name (8 bytes) and extension (3 bytes)</br>
+    - The first 8 bytes store the file name, which is padded with spaces if it is shorter than 8 characters
+    - The next 3 bytes store the file extension, which is also padded with spaces if it is shorter than 3 characters
+    - The 11th byte stores the attributes of the file
+2. Byte 11: Attributes - The attributes byte stores information about the file, such as whether it is read-only, hidden, or a system file. The value of this byte varies depending on the attributes of the file.
+    - Bit 0 : Read Only
+    - Bit 1 : Hidden
+    - Bit 2 : System
+    - Bit 3 : Volume Label
+    - Bit 4 : This is a subdirectory
+    - Bit 5 : Archive
+    - Bit 6 : Device (Internal use)
+    - Bit 6 : Unused
+3. Byte 12-13: Reserved - These bytes are reserved for future use and are currently unused.
+4. Byte 14-15: Creation time
+    - Bit 0-4 : Seconds (0-29)
+    - Bit 5-10 : Minutes (0-59)
+    - Bit 11-15 : Hours (0-23)
+5. Byte 16-17: Creation date - 
+    - Bit 0-4 : Year (0=1980; 127=2107
+    - Bit 5-8 : Month (1=January; 12=December)
+    - Bit 9-15 : Hours (0-23)
+6. Byte 18-19: Last access date (Uses same format as above)
+7. Byte 20-21: Starting cluster number
+8. Bytes 22-23 : Last Modified time (See byte 14-15 for format)
+9. Bytes 24-25 : Last modified date (See bytes 16-17 for format)
+10. Bytes 26-27 : First Cluster - These bytes store the number of the first cluster of the directory that contains the file.
+11. Bytes 28-32 : File Size

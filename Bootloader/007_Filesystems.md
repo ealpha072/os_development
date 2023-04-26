@@ -9,7 +9,7 @@ There are alot of different kinds of file systems. Some are widley use (Like FAT
 ## FAT12 Filesystem - Theory
 To understand more about FAT12, and how it works, it is better to look at the structure of a typical formatted disk. 
 
-**Boot Sector | Extra Reserved Sectors| File Allocation Table 1 | File Allocation Table 2 | Root Directory (FAT12/FAT16 Only) | Data Region containng files and directories **|
+Boot Sector | Extra Reserved Sectors| File Allocation Table 1 | File Allocation Table 2 | Root Directory (FAT12/FAT16 Only) | Data Region containng files and directories |
 ------------|------------------------|-------------------------|-------------------------|-----------------------------------|---------------------------------------------|
 
 This is a typical formatted FAT12 disk, from the bootsector to the very last sector on disk. Understanding this structure will be important when loading and searching for our file. Note that there are 2 FATs on a disk. It is located *right after* the reserved sectors (or the bootloader, if there is none).

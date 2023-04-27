@@ -4,7 +4,7 @@
   mov ah, 0x0 ;set function to reset
   mov dl, 0x0 ;set drive number
   int 0x13    ;call the interupt
-  jc .reset
+  jc .reset.  ;Jump if carry
 
  .read:
   mov ah, 0x2   ;set AH to 0x02 to indicate read sector cmd

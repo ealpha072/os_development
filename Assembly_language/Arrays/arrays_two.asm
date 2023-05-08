@@ -1,32 +1,39 @@
 ;print even numbers in an array
 
 section .data
-    myArray: dd 2,13,14,6,8,3,7,11
-    arraySize: equ $ - myArray
+    myArray dd 2,13,14,6,8,3,7,11                   ;define double word
+    arraySize equ ($ - myArray) / 4                 ;array size, number of elements
 
 section .text
     global _start
 
 _start:
-    ;loop through each element of the array
-    mov ecx, myArray
     mov ebx, 0
 
-    print_loop:
-        cmp ebx, arraySize
-        jge exit_program
+print_even:
+    mov eax, [myArray + ebx*4]                      ;indexing, 
+    and eax, 1                                      ;bitwise and on eax
+    jz print_number                                 ;jump if eax is zero, 
+    ;else continue to next element
+    add ebx, 1                                      ;increament ebx to move to next index
+    cmp ebx, arraySize                              ;compare ebx and arraySize
+    jl print_even                                   ;jump if less
+    ;else we are done           
 
-        mov eax, [ecx+ebx*4]
-        and eax, 1
-        cmp eax, 0
-        jne next_element
+print_number:
+    mov ecx, eax
+    mov eax, 4
+    mov ebx, 1
+    mov edx, 1
+    int 0x80
 
-        ;if even, print it
-        mov eax, 4
-        mov ebx, 1
-        mov ecx, 
-    
-    ;next element
+    ;After printing number, continue to next element
+    add ebx, 1
+    cmp ebx, arraySize
+    jl print_even
+    ;we are done
 
+    mov eax, 1
+    xor ebx, ebx
+    int 0x80
 
-        ;exit_program

@@ -74,7 +74,7 @@ RESQ	    Reserve a Quadword
 REST	    Reserve a Ten Bytes
 
 
-## Assembly - Addressing Modes
+# Assembly - Addressing Modes
 
 The three basic modes of addressing are −
 - Register addressing
@@ -137,3 +137,17 @@ ADD EBX, 2              ; EBX = EBX +2
 MOV [EBX], 123          ; MY_TABLE[1] = 123
 ```
 
+# Assembly - Constants
+
+There are several directives provided by NASM that define constants. We will particularly discuss three directives −
+- EQU
+- %assign - The %assign directive can be used to define numeric constants like the EQU directive. This directive allows redefinition
+- %define - The %define directive allows defining both numeric and string constants. This directive is similar to the #define in C. This directive also allows redefinition and it is case-sensitive.
+
+```asm
+TOTAL_STUDENTS equ 50
+%assign TOTAL 10
+;Later in the code, you can redefine it as
+%assign  TOTAL  20
+%define PTR [EBP+4]
+```

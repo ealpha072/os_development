@@ -18,7 +18,7 @@ print_even:
     add ebx, 1                                      ;increament ebx to move to next index
     cmp ebx, arraySize                              ;compare ebx and arraySize
     jl print_even                                   ;jump if less
-    ;else we are done           
+    ;else we are done
 
 print_number:
     mov ecx, eax
@@ -37,3 +37,17 @@ print_number:
     xor ebx, ebx
     int 0x80
 
+;je: Jump if equal
+;jne: Jump if not equal
+;jg: Jump if greater
+;jge: Jump if greater or equal
+;jl: Jump if less
+;jle: Jump if less or equal
+;jo: Jump if overflow
+;jno: Jump if not overflow
+;js: Jump if sign
+;jns: Jump if not sign
+;jp: Jump if parity (even number of 1 bits)
+;jnp: Jump if not parity (odd number of 1 bits)
+;jc: Jump if carry (unsigned overflow)
+;jnc: Jump if not carry (no unsigned overflow)

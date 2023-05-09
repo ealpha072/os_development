@@ -61,6 +61,18 @@ Please note that −
 - Negative numbers are converted to its 2's complement representation.
 - Short and long floating-point numbers are represented using 32 or 64 bits, respectively.
 
+# Allocating Storage Space for Uninitialized Data
+
+The reserve directives are used for reserving space for uninitialized data. The reserve directives take a single operand that specifies the number of units of space to be reserved. Each define directive has a related reserve directive.
+
+There are five basic forms of the reserve directive −
+Directive	Purpose
+RESB	    Reserve a Byte
+RESW	    Reserve a Word
+RESD	    Reserve a Doubleword
+RESQ	    Reserve a Quadword
+REST	    Reserve a Ten Bytes
+
 
 ## Assembly - Addressing Modes
 
@@ -124,3 +136,4 @@ MOV [EBX], 110          ; MY_TABLE[0] = 110
 ADD EBX, 2              ; EBX = EBX +2
 MOV [EBX], 123          ; MY_TABLE[1] = 123
 ```
+

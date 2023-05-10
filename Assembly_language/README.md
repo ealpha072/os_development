@@ -151,3 +151,16 @@ TOTAL_STUDENTS equ 50
 %assign  TOTAL  20
 %define PTR [EBP+4]
 ```
+
+# Arithmetic Instructions
+1. **The INC Instruction** - used for incrementing an operand by one. It works on a single operand that can be either in a register or in memory
+
+2. **The DEC Instruction** - used for decrementing an operand by one. It works on a single operand that can be eitherin a register or in memory.
+
+3. **The ADD and SUB Instructions** - The ADD and SUB instructions are used for performing simple addition/subtraction of binary data in byte, word and doubleword size. Takes place between:
+- Register to register
+- Memory to register
+- Register to memory
+- Register to constant data
+- Memory to constant data
+

@@ -1,6 +1,7 @@
 #!/bin/bash
 
-asm_file = "004addressing.asm"
+echo "Enter file name: "
+read asm_file
 
 rm ${asm_file%.asm}.o
 echo "Deleted ${asm_file%.asm}.o" 

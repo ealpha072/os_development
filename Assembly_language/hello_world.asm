@@ -12,8 +12,8 @@ SECTION .text
 
 _start:
 	;write hello world to standard output
-	mov eax, 4 				;system call for write
-	mov ebx, 1 				;file descriptor for std output
+	mov eax, 4 					;system call for write
+	mov ebx, 1 					;file descriptor for std output
 	mov ecx, hello  			;load message to register
 	mov edx, 13     			;length to read and write to std output in bytes
 	int 0x80        			;call kernel

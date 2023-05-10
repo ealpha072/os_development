@@ -1,13 +1,17 @@
+#!/bin/bash
 
-rm read_input.o
-echo "Deleted hello_world.o\n" 
+asm_file = "004addressing.asm"
 
-rm readinput
-echo "Deleted hello_word executable file\n"
+rm ${asm_file%.asm}.o
+echo "Deleted ${asm_file%.asm}.o" 
+
+rm ${asm_file%.asm}
+echo "Deleted ${asm_file%.asm} executable file\n"
 echo "Attempting nasm compilation ...\n"
-nasm -f elf read_input.asm
+
+nasm -f elf $asm_file -o ${asm_file%.asm}.o
 echo "Assembling complete, linking file...\n"
-ld -m elf_i386 read_input.o -s -o readinput
+ld -m elf_i386 ${asm_file%.asm}.o -s -o ${asm_file%.asm}
 echo "Link complete, ready to execute...\n"
 
 

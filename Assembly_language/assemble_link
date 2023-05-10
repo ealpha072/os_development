@@ -5,9 +5,9 @@ echo "Deleted hello_world.o\n"
 rm helloworldloop
 echo "Deleted hello_word executable file\n"
 echo "Attempting nasm compilation ...\n"
-nasm -f elf64 hello_world_loop.asm
+nasm -f elf hello_world_loop.asm
 echo "Assembling complete, linking file...\n"
-ld -s -o helloworldloop hello_world_loop.o
+ld -m elf_i386 hello_world_loop.o -s -o loopone
 echo "Link complete, ready to execute...\n"
 
 

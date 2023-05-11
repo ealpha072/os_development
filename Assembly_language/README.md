@@ -199,3 +199,34 @@ OR BL, 0FH ;Sets BL to 0000 1010
 4. **The TEST Instruction** - The TEST instruction works same as the AND operation, but unlike AND instruction, it does not change the first operand. So, if we need to check whether a number in a register is even or odd, we can also do this using the TEST instruction without changing the original number.
 
 5. **The NOT Instruction** - The NOT instruction implements the bitwise NOT operation. NOT operation reverses the bits in an operand. The operand could be either in a register or in the memory.
+
+# Assembly Conditions
+
+1. `Unconditional jump` - This is performed by the JMP instruction. Conditional execution often involves a transfer of control to the address of an instruction that does not follow the currently executing instruction. Transfer of control may be forward to execute a new set of instructions, or backward to re-execute the same steps.
+
+2. `Conditional jump` - This is performed by a set of jump instructions j<condition> depending upon the condition. The conditional instructions transfer the control by breaking the sequential flow and they do it by changing the offset value in IP.
+
+`The CMP Instruction` - compares two operands. It is generally used in conditional execution. This instruction basically subtracts one operand from the other for comparing whether the operands are equal or not. It does not disturb the destination or source operands. It is used along with the conditional jump instruction for decision making.
+
+```asm
+;CMP destination, src
+
+CMP DX, 00          ;compare  DX to 0
+JE L7               ;if yes, jump to label L7
+
+L7:
+```
+Following are the conditional jump instructions used on signed data used for arithmetic operations:
+
+Instruction |Description                                      | Flags tested
+------------|-------------------------------------------------|-----------------
+JE/JZ       | Jump Equal or Jump Zero                         | ZF
+JNE/JNZ     | Jump not Equal or Jump Not Zero                 | ZF
+JG/JNLE     | Jump Greater or Jump Not Less/Equal             | OF, SF, ZF
+JGE/JNL     | Jump Greater or Jump Not Less                   | OF, SF
+JL/JNGE     | Jump Less or Jump Not Greater/Equal             | OF, SF
+JLE/JNG     | Jump Less/Equal or Jump Not Greater             | OF, SF, ZF
+
+Following are the conditional jump instructions used on unsigned data used for logical operations:
+
+

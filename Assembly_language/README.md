@@ -229,4 +229,13 @@ JLE/JNG     | Jump Less/Equal or Jump Not Greater             | OF, SF, ZF
 
 Following are the conditional jump instructions used on unsigned data used for logical operations:
 
+Instruction | Description                             | Flags tested
+------------|-----------------------------------------|-----------------
+JE/JZ       | Jump Equal or Jump Zero                 | ZF
+JNE/JNZ     | Jump not Equal or Jump Not Zero         | ZF
+JA/JNBE     | Jump Above or Jump Not Below/Equal      | CF, ZF
+JAE/JNB     | Jump Above/Equal or Jump Not Below      | CF
+JB/JNAE     | Jump Below or Jump Not Above/Equal      | CF
+JBE/JNA     | Jump Below/Equal or Jump Not Above      | AF, CF
+
 

@@ -164,3 +164,5 @@ TOTAL_STUDENTS equ 50
 - Register to constant data
 - Memory to constant data
 
+4. **The MUL/IMUL Instruction** - The MUL (Multiply) instruction handles unsigned data and the IMUL (Integer Multiply) handles signed data. Both instructions affect the Carry and Overflow flag.
+5. **The DIV/IDIV Instructions** - The division operation generates two elements - a quotient and a remainder. In case of multiplication, overflow does not occur because double-length registers are used to keep the product. However, in case of division, overflow may occur. The processor generates an interrupt if overflow occurs. The DIV (Divide) instruction is used or unsigned data and the IDIV (Integer Divide) is used for signed data.

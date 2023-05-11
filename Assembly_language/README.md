@@ -166,3 +166,36 @@ TOTAL_STUDENTS equ 50
 
 4. **The MUL/IMUL Instruction** - The MUL (Multiply) instruction handles unsigned data and the IMUL (Integer Multiply) handles signed data. Both instructions affect the Carry and Overflow flag.
 5. **The DIV/IDIV Instructions** - The division operation generates two elements - a quotient and a remainder. In case of multiplication, overflow does not occur because double-length registers are used to keep the product. However, in case of division, overflow may occur. The processor generates an interrupt if overflow occurs. The DIV (Divide) instruction is used or unsigned data and the IDIV (Integer Divide) is used for signed data.
+
+# Logical Instructions
+
+The processor instruction set provides the instructions AND, OR, XOR, TEST and NOT Boolean logic, which tests, sets and clears the bits according to the need of the program. 
+
+Instruction | Format
+------------|------------------------
+AND         | AND operand1, operand2
+OR          | OR operand1, operand2
+XOR         | XOR operand1, operand2
+TEST        | TEST operand1, operand2
+NOT         | NOT operand1
+
+The first operand in all the cases could be either in register or in memory. The second operand could be either in register/memory or an immediate (constant) value. However, memory to memory operations are not possible. These instructions compare or match bits of the operands and set the CF, OF, PF, SF and ZF flags.
+
+1. **The AND Instruction** - The AND instruction is used for supporting logical expressions by performing bitwise AND operation. The bitwise AND operation returns 1, if the matching bits from both the operands are 1, otherwise it returns 0. 
+
+The AND operation can be used for clearing one or more bits. For example, say, the BL register contains 0011 1010. If you need to clear the high order bits to zero, you AND it with 0FH.
+
+```asm
+AND BL, 0FH ;Sets BL to 0000 1010
+```
+2. **The OR Instruction** - The OR instruction is used for supporting logical expression by performing bitwise OR operation. The bitwise OR operator returns 1, if the matching bits from either or both operands are one. It returns 0, if both the bits are zero. In the above we can say
+
+```asm
+OR BL, 0FH ;Sets BL to 0000 1010
+```
+
+3. **The XOR Instruction** - The XOR instruction implements the bitwise XOR operation. The XOR operation sets the resultant bit to 1, if and only if the bits from the operands are different. If the bits from the operands are same (both 0 or both 1), the resultant bit is cleared to 0. 
+
+4. **The TEST Instruction** - The TEST instruction works same as the AND operation, but unlike AND instruction, it does not change the first operand. So, if we need to check whether a number in a register is even or odd, we can also do this using the TEST instruction without changing the original number.
+
+5. **The NOT Instruction** - The NOT instruction implements the bitwise NOT operation. NOT operation reverses the bits in an operand. The operand could be either in a register or in the memory.

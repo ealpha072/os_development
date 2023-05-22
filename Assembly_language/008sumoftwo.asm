@@ -21,4 +21,45 @@ section .bss
     sum resb 1
 
 _start:
-    
+;prompt user for first digit
+    mov eax, SYS_WRITE
+    mov ebx, STDOUT
+    mov ecx, msg1
+    mov edx, len1
+    int 0x80
+
+;read first input
+    mov eax, SYS_READ
+    mov ebx, STDIN
+    mov ecx, num1
+    mov edx, 2
+    int 0x80
+
+;prompt user for second digit
+    mov eax, SYS_WRITE
+    mov ebx, STDOUT
+    mov ecx, msg2
+    mov edx, len2
+    int 0x80
+
+;read second input
+    mov eax, SYS_READ
+    mov ebx, STDIN
+    mov ecx, num2
+    mov edx, 2
+    int 0x80
+
+;prompt user for sum
+    mov eax, SYS_WRITE
+    mov ebx, STDOUT
+    mov ecx, msg3
+    mov edx, len3
+    int 0x80
+
+;move first number to eax register and 
+;second number to ebx
+;and substracting ascii '0' to convert it into
+;decimal number
+
+
+

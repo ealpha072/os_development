@@ -83,4 +83,18 @@ The first thing to do is to create a good filename. Remember: The Filenames must
 I am using "STAGE2.SYS", for my second stage. You can look at an example of its internal filename in the above section. 
 
 ### Creating Stage 2
-Our Stage2 will be very simular to a DOS COM program. All Stage2 does right now is print a message and halt.
+Our Stage2 will be very simular to a DOS COM program. All Stage2 does right now is print a message and halt. We will create the file [Here](here)
+
+### Step 1: Loading the Root Directory Table
+
+We will be refrencing the Root directory table alot here, along with the BIOS parameter block for disk information
+#### Step 1: Get size of root directory
+To get the size, just multiply the number of entrys in the root directory. In Windows, whenever you add a file or directory to a FAT12 formatted disk, Windows automatically adds the file information to the root directory, so we dont need to worry about it. This makes things much simpler.
+
+Dividing the number of root entrys by bytes per sector will tell us how many sectors the root entry uses
+
+```asm
+    mov     ax, 0x0020                  ; 32 byte directory entry
+    mul     WORD [bpbRootEntries]       ; number of root entrys
+    div     WORD [bpbBytesPerSector]    ; get sectors used by root directory
+```

@@ -14,4 +14,4 @@ start:
 
 section .bss
 resb 16000
-stack_space
+stack_space:

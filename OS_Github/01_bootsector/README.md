@@ -21,3 +21,6 @@ times 510 - ($ - $$) db
 dw 0xaa55
 ```
 
+To compile: ` *nasm -f bin boot_sect_simple.asm -o boot_sect_simple.bin* `
+
+To run using QEMU: `qemu boot_sect_simple.bin`

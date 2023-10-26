@@ -5,7 +5,7 @@
 
 
 section .data
-    msg db "Display 9 stars", 0xa
+    msg db "Display 9 stars", 0xa ;new line character in hex (10), to print a new line every time
     len equ $ - msg
     stars times 9 db '*'
 
@@ -13,11 +13,11 @@ section .text
     global _start
 
 _start:
-    mov eax, 4
-    mov ebx, 1
-    mov ecx, msg
-    mov edx, len
-    int 0x80
+    mov eax, 4              ;system call number (4) in eax
+    mov ebx, 1              ;file descriptor (stdout)
+    mov ecx, msg            ; message to write
+    mov edx, len            ;length of message
+    int 0x80                ;call the kernel
 
     mov eax, 4
     mov ebx, 1

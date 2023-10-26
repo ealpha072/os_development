@@ -11,7 +11,7 @@ An assembly program can be divided into three sections
 You can make use of Linux system calls in your assembly programs. You need to take the following steps for using Linux system calls in your program −
 
 - Put the system call number in the EAX register
-- Store the arguments to the system call in the registers EBX, ECX, etc.
+- Store the arguments to the system call in the registers EBX, ECX, EDX, ESI, EDI, EPB.
 - Call the relevant interrupt (80h).
 - The result is usually returned in the EAX register
 

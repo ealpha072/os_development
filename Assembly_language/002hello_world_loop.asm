@@ -27,6 +27,7 @@ _start:
 
     ;exit
     mov eax, 1
+    move ebx, 0
     int 0x80
 
 

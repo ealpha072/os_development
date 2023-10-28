@@ -1,13 +1,13 @@
 ;The following example reads a number from the keyboard and displays it on the screen
 
 section .data
-    userMsg DB "Please enter a number"
+    userMsg DB "Please enter a number", 0xa
     lengthUserMsg EQU $-userMsg
     displayMsg DB "You've entered: "
     lenDispMsg EQU $-displayMsg
 
 section .bss
-    num RESB 5
+    num RESB 5 ;upto 5 bytes (5 numbers)
 
 section .text
     global _start
@@ -45,4 +45,3 @@ _start:
     mov eax, 1
     xor ebx, ebx
     int 0x80
-

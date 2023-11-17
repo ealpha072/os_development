@@ -1,7 +1,7 @@
 ;The following example reads a number from the keyboard and displays it on the screen
 
 section .data
-    userMsg DB "Please enter a number", 0xa
+    userMsg DB "Please enter a number: "
     lengthUserMsg EQU $-userMsg
     displayMsg DB "You've entered: "
     lenDispMsg EQU $-displayMsg
@@ -40,6 +40,12 @@ _start:
     mov ecx, num
     mov edx, 5
     int 0x80
+
+    ;print new line
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, 0xa
+    mov edx, 1
 
     ;exit program
     mov eax, 1

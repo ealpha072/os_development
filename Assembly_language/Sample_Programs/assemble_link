@@ -3,18 +3,18 @@
 read -p "Enter file name: " asm_file
 
 if [ -e "$asm_file.asm" ]; then
-  echo "File '$asm_file.asm' found in directory... \n"
+  echo "File '$asm_file.asm' found in directory"
   if [ -e "$asm_file.o" ]; then
-    echo "Found executable file, attempting deleting...\n"
-    echo "Attempting command rm '$asm_file.o'...\n"
+    echo "Found executable file, attempting deleting"
+    echo "Attempting command rm '$asm_file.o'"
     rm "$asm_file.o"
-    echo "Delete complete, attempting NASM compilation...\n"
+    echo "Delete complete, attempting NASM compilation"
     nasm -f elf "$asm_file.asm"
-    echo "Assembling complete, linking file...\n"
+    echo "Assembling complete, linking file"
     ld -m elf_i386 -s -o "$asm_file" "$asm_file.o"
   else
     nasm -f elf "$asm_file.asm"
-    echo "Assembling complete, linking file...\n"
+    echo "Assembling complete, linking file"
     ld -m elf_i386 -s -o "$asm_file" "$asm_file.o"
   fi
 else

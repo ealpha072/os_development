@@ -46,6 +46,7 @@ _start:
     mov ebx, 1
     mov ecx, 0xa
     mov edx, 1
+    int 0x80   
 
     ;exit program
     mov eax, 1

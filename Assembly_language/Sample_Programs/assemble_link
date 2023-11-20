@@ -4,14 +4,36 @@ read -p "Enter file name: " asm_file
 
 if [ -e "$asm_file.asm" ]; then
   echo "File '$asm_file.asm' found in directory"
+
   if [ -e "$asm_file.o" ]; then
     echo "Found executable file, attempting deleting"
     echo "Attempting command rm '$asm_file.o'"
     rm "$asm_file.o"
-    echo "Delete complete, attempting NASM compilation"
+
+    if [ $? -eq 0 ];then
+		echo "Successfully deleted file"
+		echo "Attempting NASM compilation"
+	else
+		echo "Unable to delete fie"
+		exit(1)
+	fi
+	
     nasm -f elf "$asm_file.asm"
-    echo "Assembling complete, linking file"
+
+	if [ $? -eq 0 ];then
+		echo "Assembling complete, linking file"
+	else
+		echo "Unable to compile file"
+		exit(1)
+	fi
+
     ld -m elf_i386 -s -o "$asm_file" "$asm_file.o"
+	if [ $? -eq 0 ]; then
+		echo "Success on linking"
+	else
+		echo "Error linking file"
+		exit(1)
+	fi
   else
     nasm -f elf "$asm_file.asm"
     echo "Assembling complete, linking file"
@@ -21,17 +43,3 @@ else
   echo "File not found"
   exit 1
 fi
-
-
-# rm ${asm_file%.asm}.o
-# echo "Deleted ${asm_file%.asm}.o" 
-
-# rm ${asm_file%.asm}
-# echo "Deleted ${asm_file%.asm} executable file\n"
-# echo "Attempting nasm compilation ...\n"
-
-
-# nasm -f elf $asm_file -o ${asm_file%.asm}.o
-# echo "Assembling complete, linking file...\n"
-#   ${asm_file%.asm}.o -s -o ${asm_file%.asm}
-# echo "Link complete, ready to execute...\n"

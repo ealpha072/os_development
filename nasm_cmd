@@ -1,0 +1,18 @@
+To assemble a file, you issue a command of the form
+
+nasm -f <format> <filename> [-o <output>]
+
+For example:
+	nasm -f elf myfile.asm --> will assemble myfile.asm into ELF object file myfile.o
+
+The -o option: Specifying output file name 
+
+You invoke -o by following it with the name you wish for the output file, either with or without an intervening space. For example:
+	
+	nasm -f bin program.asm -o program.com
+	nasm -f bin driver.asm -odriver.sys
+
+The -f Option: Specifying the Output File Format
+
+
+https://nasm.us/doc/nasmdoc2.html

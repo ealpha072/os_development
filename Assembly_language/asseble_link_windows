@@ -1,0 +1,22 @@
+@echo off
+set /p asm_file=Enter file name: 
+
+if exist "%asm_file%.asm" (
+  echo File '%asm_file%.asm' found in directory
+  if exist "%asm_file%.o" (
+    echo Found executable file, attempting deleting
+    echo Attempting command del "%asm_file%.o"
+    del "%asm_file%.o"
+    echo Delete complete, attempting NASM compilation
+    nasm -f win32 "%asm_file%.asm"
+    echo Assembling complete, linking file
+    gcc -m32 -o "%asm_file%" "%asm_file%.obj"
+  ) else (
+    nasm -f win32 "%asm_file%.asm"
+    echo Assembling complete, linking file
+    gcc -m32 -o "%asm_file%" "%asm_file%.obj"
+  )
+) else (
+  echo File not found
+  exit /b 1
+)

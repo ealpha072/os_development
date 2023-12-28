@@ -1,0 +1,5 @@
+#function to check if there are changes
+check_changes(){
+	if [[ -n $(git status -s) ]]; then
+		
+}

@@ -1,5 +1,26 @@
 #function to check if there are changes
 check_changes(){
 	if [[ -n $(git status -s) ]]; then
-		
+		echo "Uncommitted chnages"
+		git status
+		return 0
+			
+	else
+		echo "No changes to commit."
+		return 1
+	fi
 }
+
+commit_and_push(){
+	git add .
+	echo -n "Enter your commit message"
+	read commit_message
+
+	git commit -m "$commit_message"
+
+	git push --verbose
+}
+
+if check_changes; then
+	commit_and_push
+fi

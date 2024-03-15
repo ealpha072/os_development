@@ -1,7 +1,7 @@
 ### Booting process
-1. `Pressing the power button` - When this button is pressed, the wires connected to the button send an electronic signal to the motherboard. The motherboard simply reroutes this signal to the power supply (PSU). The PSU then sends a signal, called the "power_good" signal into the motherboard to the Basic Input Output System (BIOS).
+1. `Pressing the power button` - When this button is pressed, the wires connected to the button send an electronic signal to the motherboard. The motherboard simply reroutes this signal to the power supply (PSU). The PSU then sends a signal, called the "power_good" signal into the motherboard. After receiving this signal from the motherboard, the PSU now electrical power to all the components within your PC. When everything is powered up, the PSU notifies the motherboard about it. The motherboard then hands the controls over to the BIOS – the Basic Input/Output System.
 
-2. `BIOS POST` - When the BIOS recieves this "power_good" signal, the BIOS begins initializing a process called POST (Power On Self Test). The POST then tests to insure there is good amount of power being supplied, the devices installed (such as keyboard, mouse, USB, serial ports, etc.), and insures the memory is good. 
+2. `BIOS POST` - When the BIOS recieves this "power_good" signal, the BIOS begins initializing a process called POST (Power On Self Test). The POST then tests to insure there is good amount of power being supplied, the devices installed (such as keyboard, mouse, USB, serial ports, etc.), and ensures the memory is good. 
       - The POST then gives control to the BIOS. 
       - The POST loads the BIOS at the end of memory (Might be 0xFFFFF0) and puts a jump instruction at the first byte in memory.
       - The processors Instruction Pointer (CS:IP) is set to 0, and the processor takes control.

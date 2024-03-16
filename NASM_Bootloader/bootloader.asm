@@ -1,12 +1,20 @@
-[org 0x7c00]
+;**************************************
+;bootloader.asm
+;A simple bootloader
+;**************************************
 
-;print string to std output "Hi"
-mov ah, 0x0E.  ;Teletype 
-mov al, 'H'   ;Move byte
-int 0x10     ;Call interupt
-mov al, 'i'
-int 0x10     ;Call interupt
+org 0x7c00
+bits 16
+start: jmp boot
+
+;; Constants and variable definitions
+
+msg db "Welcome to Alpha OS!", 0ah, 0dh, 0h
+
+boot:
+	cli
+	cld
+	hlt
 
 times 510 - ($-$$) db 0
 dw 0xAA55
-

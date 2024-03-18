@@ -28,31 +28,37 @@ Remember that Bootloaders are limited to 512 bytes. Because of this, there is no
 
 The interrupt is typically called with the AH register set to a command code that specifies the type of operation to perform, and the other registers set to parameters such as the number of sectors to read or write, the starting sector number, and the buffer address. The BIOS interrupt `0x13 with AH=0x0` is used to reset the disk system. This interrupt resets all disk drives in the system to a known state.
 
-**INT 0x13/AH=0x0 - DISK : RESET DISK SYSTEM** </br>
-AH = 0x0 </br>
-DL = Drive to Reset
+**INT 0x13/AH=0x0 - DISK : RESET DISK SYSTEM [More here](https://stanislavs.org/helppc/int_13-0.html)** </br> 
+
+Function 0 of Interrupt 13h requires several input parameters to perform disk operations. </br>
+`AH`: This register holds the function number (in this case, 0 or 0x0).
+`DL`: Drive number to reset. This specifies the drive from which to read. This is typically set to 0x00 (0) for the first floppy disk drive (A:), 0x80 for the first hard disk drive (C:), and so on.
+
 
 Returns:
-AH = Status Code </br>
+`AH`: = Status Code (puts the disk reset operation status) </br>
 CF (Carry Flag) is clear if success, it is set if failure
 
 Example
 ```asm
-mov ah, 0x0 ; Set AH to 0x0 to indicate disk reset command
-int 0x13    ; Call BIOS interrupt 0x13
+.Reset
+  mov ah, 0x0 ; Set AH to 0x0 to indicate disk reset command
+  mov dl, 0x0 ; Set the driver number in register dl
+  int 0x13    ; Call BIOS interrupt 0x13
+  jc .Reset   ; 
 ```
 
-Why is this interrupt important to us? Before reading any sectors, we have to insure we begin from sector 0. We dont know what sector the floppy controller is reading from. This is bad, as it can change from any time you reboot. Reseting the disk to sector 0 will insure you are reading the same sectors each time. 
+Why is this interrupt important to us? Before reading any sectors, we have to ensure we begin from sector 0. We dont know what sector the floppy controller is reading from. This is bad, as it can change from any time you reboot. Reseting the disk to sector 0 will insure you are reading the same sectors each time. 
 
 **`BIOS Interrupt (INT) 0x13 Function 0x02 - Reading Sectors`** - sed to read disk sectors into memory. This interrupt is typically used to load boot code or other data from disk into memory during system startup.
 When this interrupt is called with AH=0x2, the other registers are used to specify the disk address and number of sectors to read. The disk address is specified using the CH, CL, and DH registers, while the number of sectors to read is specified using the AL register.
 
 After the read operation is complete, the data is typically stored in memory at the location specified by the ES:BX register pair.
 
-**INT 0x13/AH=0x02 - DISK : READ SECTOR(S) INTO MEMORY** </br>
-AH = 0x02 </br>
-AL = Number of sectors to read </br>
-CH = Low eight bits of cylinder number </br>
+**INT 0x13/AH=0x02 - DISK : READ SECTOR(S) INTO MEMORY [More here](https://stanislavs.org/helppc/int_13-2.html)** </br>
+AH = 0x02 (function number doe INT 0x13) </br>
+AL = Number of sectors to read (1-128 dec.) </br>
+CH = track/cylinder number  (0-1023 dec.) Low eight bits of cylinder number </br>
 CL = Sector Number (Bits 0-5). Bits 6-7 are for hard disks only </br>
 DH = Head Number </br>
 DL = Drive Number (Bit 7 set for hard disks) </br>

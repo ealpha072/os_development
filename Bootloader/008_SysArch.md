@@ -1,4 +1,4 @@
-## Memory Mapping
+# Memory Mapping
 On the x86 Architecture, the processor uses specific memory locations to represent certain things.
 For example, The address 0xA000:0 represents the start of VRAM in the video card. By writing bytes to this location, you effectivly change what is currently in video memory, and effectivly, what is displayed on screen.
 
@@ -18,7 +18,7 @@ Understanding what addresses are what is critical, and very important to us.
 10. 0x000C8000 - 0x000EFFFF - BIOS Shadow Area
 11. 0x000F0000 - 0x000FFFFF - System BIOS
 
-### Registers
+## Registers
 he x86 processor has alot of different registers for storing its current state. Most applications only have access to the general, segment, and eflags. Other registers are specific to Ring 0 programs, such as our Kernel.
 The x86 family has the following registers: **RAX (EAX(AX/AH/AL)), RBX (EBX(BX/BH/BL)), RCX (ECX(CX/CH/CL)), RDX (EDX(DX/DH/DL)), CS,SS,ES,DS,FS,GS, RSI (ESI (SI)), RDI (EDI (DI)), RBP (EBP (BP)). RSP (ESP (SP)), RIP (EIP (IP)), RFLAGS (EFLAGS (FLAGS)), DR0, DR1, DR2, DR3, DR4, DR5, DR6, DR7, TR1, TR2, TR3, TR4, TR5, TR6, TR7, CR0, CR1, CR2, CR3, CR4, CR8, ST, mm0, mm1, mm2, mm3, mm4, mm5, mm6, mm7, xmm0, xmm1, xmm2, xmm3, xmm4, xmm5, xmm6, xmm7, GDTR, LDTR, IDTR, MSR, and TR.** All of these registers are stored in a special area of memory inside the processor called a Register File. Please see the Processor Architecture section for more information. Other registers include, but may not be in the Resgister File, include: PC, IR, vector registers, and Hardware Registers.
 
@@ -31,7 +31,7 @@ We will need to know some of these special registers, so lets take a look closer
 Note: Think of the CPU as any normal device that we need to comunicate with. The concept of Control Registers (and registers themselves) will be important later on when we talk to other devices.
 
 
-### General Purpose Registers
+## General Purpose Registers
 These are 32 bit registers that can be used for almost any purpose. Each of these registers have a special purpose as well, however.
 1. `EAX` - Accumlator Register. Primary purpose: Math calculations
 2. `EBX` - Base Address Register. Primary purpose: Indirectly access memory through a base address.
@@ -44,7 +44,7 @@ On 64 bit processors, these registers are 64 bits wide, and or named RAX, RBX, R
 
 The upper 16 bits does not have a special name associatd with them. However, The lower 16 bits do. These names have an oppended 'H' (for higher 8 bits in low word), or an appended 'L' for lower 8 bits.
 
-### Segment Registers
+## Segment Registers
 The segment registers modify the current segment addresses in real mode. They are all 16 bit.
 
 1. CS - Segment address of code segment
@@ -59,7 +59,7 @@ It is useually refrenced like: DS:SI, where DS contains the segment address, and
 
 Segment registers can be used within any program, from Ring 0 to Ring 4. 
 
-### Index Registers
+## Index Registers
 The x86 uses several registers that help when access memory.
 
 1. SI - Source Index
@@ -78,7 +78,7 @@ The Stack Pointer is automatically incremented and decremented a certain amount 
 
 The C Programming Language, in fact most languages, use the stack regularly. We will need to insure we set the stack up at a good address to insure C works properly. Also, remember: The stack grows *downward*!
 
-### Instruction Pointer / Program Counter
+## Instruction Pointer / Program Counter
 The Instruction Pointer (IP) register stores the current offset address of the currently exectuting instruction. Remember: This is an offset address, *Not* an absolute address!
 The Instruction Pointer (IP) is sometimes also called the Program Counter (PC).
 
@@ -86,10 +86,10 @@ On 32 bit machines, IP is 32 bits in size and uses the name EIP.
 
 On 64 bit machines, IP is 64 bits in size, and uses the name RIP.
 
-### Instruction Register
+## Instruction Register
 This is an internal processor register that cannot be accessed through normal means. It is stored within the Control Unit (CU) of the processor inside the Instruction Cache. It stores the current instruction that is being translated to Microinstructions for use internally by the processor. Please see Processor Architecture for more information.
 
-### EFlags Register
+## EFlags Register
 The EFLAGS register is the x86 Processor Status Register. It is used to determin the um.. current status. We have actually used this alot already so far. A simple example: jc, jnc, jb, jnb Instruction
 Most instructions manupulate the EFLAGS register so that you can test for conditions (Like if the value was lower or higher then another).
 
@@ -99,17 +99,17 @@ Most operating systems set the IOPF to 0 or 1. This means that only Kernel level
 
 For most operations, we only need to use the FLAGS register. Notice that the last 32 bits of the RFLAGS register is nill, null, non existant, there for viewing pleasure. So, um... yeah. For speed puposes, of course, but alot of bytes being wasted... ...yeah.
 
-### Test Registers
+## Test Registers
 The x86 family uses some registers for testing purposes. Many of these registers are undocumented. On the x86 series, these registers are TR4,TR5,TR6,TR7.
 TR6 is the most commonly used for command testing, and TR7 for a test data register. One can use the MOV instruction to access them. There are only avilable in Ring 0 for both pmode and real mode. Any other attempt will cause a General Protection Fault (GPF) leading to a Triple Fault.
 
-### Debug Registers
+## Debug Registers
 These registers are used for program debugging. They are DR0,DR1,DR2,DR3,DR4,DR5,DR6,DR7. Just like the test registers, they can be accessed using the MOV instruction, and only in Ring 0. Any other attempt will cause a General Protection Fault (GPF) leading to a Triple Fault.
 
-#### Beakpoint Registers
+### Beakpoint Registers
 The registers DR0, DR1, DR2, DR3 store an Absolute Address of a breakpoint condition. If Paging is enabled, the address will be converted to its Absolute address. These breakpoint conditions are further defined in DR7.
 
-### Model Specific Register
+## Model Specific Register
 This is a special control register that provides special processor specific features that may not be on others. As these are system level, Only Ring 0 programs can access this register.
 Because these registers are specific to each processor, the actual register may change.
 
@@ -123,11 +123,11 @@ To access a given register, one must pass the instructions an Address which repr
 
 Through the years, Intel has used some MSRs that are not machine specific. These MSRs are common within the x86 architecture.
 
-### Control Registers
+## Control Registers
 THIS is going to be important to us.
 The control registers allow us to change the behavior of the processor. They are: CR0, CR1, CR2, CR3, CR4.
 
-#### CR0 Control Register
+### CR0 Control Register
 CR0 is the primary control register. It is 32 bits, which are defined as follows:
 
 1. Bit 0 (PE) : Puts the system into protected mode
@@ -153,18 +153,18 @@ CR0 is the primary control register. It is 32 bits, which are defined as follows
 0 - Disable
 1 - Enabled and use CR3 register
 
-#### CR1 Control Register 
+### CR1 Control Register 
 Reserved by Intel, do not use.
-#### CR2 Control Register
+### CR2 Control Register
 Page Fault Linear Address. If a Page Fault Exception accures, CR2 contains the address that was attempted accessed
-#### CR3 Control Register
+### CR3 Control Register
 Used when the PG bit in CR0 is set. Last 20 bits Contains the Page Directory Base Register (PDBR)
-#### CR4 Control Register
+### CR4 Control Register
 Used in protected mode to control operations, such as v8086 mode, enabling I/O breakpoints, Page size extension and machine check exceptions.
-#### CR8 Control Register
+### CR8 Control Register
 Provides Read and Write access to the Task Prority Register (TPR)
 
-### PMode Segmentation Registers
+## PMode Segmentation Registers
 The x86 family uses several registers to store the current linear address of each Segment Descriptor. More on this later.
 These registers are:
 

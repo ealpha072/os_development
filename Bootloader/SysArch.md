@@ -142,15 +142,34 @@ CR0 is the primary control register. It is 32 bits, which are defined as follows
   1 - Enable internal x87 FPU error reporting
 7. Bits 6-15 : Unused
 8. Bit 16 (WP): Write Protect
-Bit 17: Unused
-Bit 18 (AM): Alignment Mask
+9. Bit 17: Unused
+10. Bit 18 (AM): Alignment Mask
 0 - Alignment Check Disable
 1 - Alignment Check Enabled (Also requires AC flag set in EFLAGS and ring 3)
-Bits 19-28: Unused
-Bit 29 (NW): Not Write-Through
-Bit 30 (CD): Cache Disable
-Bit 31 (PG) : Enables Memory Paging.
+11. Bits 19-28: Unused
+12. Bit 29 (NW): Not Write-Through
+13. Bit 30 (CD): Cache Disable
+14. Bit 31 (PG) : Enables Memory Paging.
 0 - Disable
 1 - Enabled and use CR3 register
-Wow... alot of new stuff, huh? Lets look at Bit 0--Puts system in protected mode. This means, By setting Bit 0 in the CR0 register, we effectivly enter protected mode.
-For example:
+
+#### CR1 Control Register 
+Reserved by Intel, do not use.
+#### CR2 Control Register
+Page Fault Linear Address. If a Page Fault Exception accures, CR2 contains the address that was attempted accessed
+#### CR3 Control Register
+Used when the PG bit in CR0 is set. Last 20 bits Contains the Page Directory Base Register (PDBR)
+#### CR4 Control Register
+Used in protected mode to control operations, such as v8086 mode, enabling I/O breakpoints, Page size extension and machine check exceptions.
+#### CR8 Control Register
+Provides Read and Write access to the Task Prority Register (TPR)
+
+### PMode Segmentation Registers
+The x86 family uses several registers to store the current linear address of each Segment Descriptor. More on this later.
+These registers are:
+
+1. GDTR - Global Descriptor Table Register
+2. IDTR - Interrupt Descriptor Table Register
+3. GDTR - Local Descriptor Table Register
+4. TR - Task Register
+

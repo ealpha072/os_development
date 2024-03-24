@@ -5,7 +5,18 @@ Bootloaders...
   - ...Are in the first sector of the disk.
   - ...Are the size of a single sector (512) bytes.
   - ...Are loaded by the BIOS INT 0x19 at address 0x7C00.
-
+    
+Here’s a list of things that a modern boot loader should do in order to load and start your operating system’s kernel.
+1. Reset the floppy disk system
+2. Write a “loading” message to the screen
+3. Find the kernel in the root directory of the disk (at any position)
+4. Read the kernel from disk into memory
+5. Enable the A20-line
+6. Setup the IDT and GDT tables
+7. Switch to protected mode
+8. Clear the processor prefetch queue
+9. Run the kernel
+    
 We cannot do a whole lot in 512 bytes. What do we do? So, the code could look just fine, but only a part of it will be in memory. For example, coinsider this:
 ```asm
 mov	ax, 4ch

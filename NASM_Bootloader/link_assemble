@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# Step 1: Assemble the bootloader code
+if nasm -f bin -o masterbl.bin masterbootloader.asm; then
+	echo "Bootloader assembled successfully"
+else
+	echo "Failed to assemble"
+	exit 1
+fi
+
+# Step 2: Create an empty disk image
+if dd if=/dev/zero of=disk.img bs=512 count=2880; then
+	echo "Disk image created successfuly"
+else
+	echo "Failed to create disk image"
+	exit 1
+fi
+
+# Step 3: Copy the bootloader binary into the disk image
+if dd if=masterbl.bin of=disk.img bs=512 count=2880; then
+	echo "Bootloader copied successfully"
+else
+	echo "Failed to copy bootloader"
+	exit 1
+fi
+
+#qemu-system-i386 -fda disk.img
+

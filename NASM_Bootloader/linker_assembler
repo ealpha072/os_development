@@ -1,2 +1,0 @@
-Link .asm files with "nasm [filename.asm] -f bin -o [output_file.bin]" without the square brackets
-run with qemu as "Oqemu-system-i386 -fda [output_file.bin]"
